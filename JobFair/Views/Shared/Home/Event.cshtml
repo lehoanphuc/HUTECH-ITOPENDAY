@@ -1,0 +1,61 @@
+﻿<section class="showcase bg-light" id="event">
+    @*<div class="text-center pt-5">
+            <h1>SỰ KIỆN - HỘI THẢO</h1>
+        </div>
+        <hr />*@
+
+    <div class="container-fluid p-0">
+        @{ var i = 0; }
+        @foreach (var item in JobFair.Shared.MasterData.EventData.GetList())
+        {
+            <div class="row g-0">
+                <div class="col-lg-6 @(i%2 == 0 ? "order-lg-2" : "") text-white showcase-img" style="background-image: url('@item.Img')"></div>
+                <div class="col-lg-6 @(i%2 == 0 ? "order-lg-1" : "") my-auto showcase-text">
+                    <h2>@item.Name</h2>
+                    @if (!string.IsNullOrEmpty(item.Description))
+                    {
+                        <p class="lead mb-0">@item.Description</p>
+                    }
+                    <hr />
+                    <p class="lead mb-0">
+                        <i class="fa-solid fa-calendar-days"></i> @item.Time
+                        <br />
+                        <i class="fa-solid fa-location-dot"></i> @item.Place
+                    </p>
+                    <br />
+                    <a role="button" class="btn btn-primary" href="@item.Url" @(item.AllowReg ? "" : "disabled")>Đăng ký tham gia</a>
+                </div>
+            </div>i++;
+        }
+
+        <div class="row g-0">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('/Assets/img/event/3.png')"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                <h2>Ngày hội Tuyển dụng và Triển lãm CNTT</h2>
+                <p class="lead mb-0">Với sự tham gia của 2000+ ứng viên/sinh viên</p>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <p class="lead mb-0">
+                            Tham gia trực tiếp vào <br />
+                            <i class="fa-solid fa-calendar-days"></i> 06h30 ngày 08/04/2022
+                            <br>
+                            <i class="fa-solid fa-location-dot"></i> Trung Tâm Đào Tạo Nhân Lực Chất Lượng Cao HUTECH
+                        </p>
+                    </div>
+                    <div class="col">
+
+                        <p class="lead mb-2">
+                            Hoặc phỏng vấn online vào<br />
+                            <i class="fa-solid fa-calendar-days"></i> 06h30 ngày 08/04/2022
+                            <br>
+                        </p>
+                        <a role="button" class="btn btn-block btn-primary" href="/interview">Phỏng Vấn Online</a>
+
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</section>

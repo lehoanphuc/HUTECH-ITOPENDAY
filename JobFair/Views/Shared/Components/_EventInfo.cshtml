@@ -1,0 +1,51 @@
+﻿@model JobFair.ViewModels.EventViewModel
+
+<script src="~/Assets/js/page/eventinfo.js"></script>
+
+<br />
+<form>
+    <div class="card">
+        <div class="card-header">
+            Thông tin sự kiện
+        </div>
+        <div class="card-body">
+
+            <input value="@Model.Id" id="id" name="id" hidden />
+            <div class="form-group">
+                <label for="name">Tên sự kiện</label>
+                <input type="text" class="form-control" id="name" name="name" value="@(Model.Id == 0 ? "" : Model.Name)" required>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Ngày diễn ra hội thảo</label>
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" value="@(Model.Id == 0 ? "" : (Model.DateTimeType?.ToString("dd/MM/yyyy HH:mm:ss") ?? ""))" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Mô tả ngắn</label>
+                <textarea class="form-control" id="description" name="description" rows="3" maxlength="500">@(Model.Id == 0 ? "" : Model.Description)</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="meetinglink">Phòng/Địa điểm</label>
+                <input type="text" name="place" class="form-control" value="@(Model.Id == 0 ? "" : Model.Place)" id="place">
+            </div>
+
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" name="allowReg" id="customSwitch1" @(Model.Id == 0 || Model.AllowReg == true ? "checked" : "")>
+                <label class="custom-control-label" for="customSwitch1">Cho phép sinh viên đăng ký</label>
+            </div>
+
+            <div class="text-right">
+                <button class="btn btn-primary" type="button" id="submit" onclick="saveData()"><i class="fa-solid fa-floppy-disk"></i> @(Model.Id == 0 ? "Tạo mới" : "Lưu lại")</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>

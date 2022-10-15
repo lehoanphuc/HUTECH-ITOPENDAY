@@ -1,0 +1,20 @@
+﻿@{ var listNews = JobFair.Shared.MasterData.NewsData.GetList(); }
+
+<section class="testimonials text-center bg-white" id="news">
+    <div class="container">
+        <h1>TIN TỨC BÁO CHÍ</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var item in listNews)
+            {
+<div class="col">
+    <div class="card">
+        <img src="@item.Img" class="card-img-top" alt="@item.Title" style="height: 250px">
+        <div class="card-body">
+            <h5 class="card-title">@item.Title</h5>
+            <a href="@item.Url" target="_blank" class="btn btn-sm btn-outline-primary">Xem thêm</a>
+        </div>
+    </div>
+</div>  }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,176 @@
+﻿@using JobFair.Services.BUS
+@using JobFair.Shared.Constants
+@{
+    ViewBag.Title = "Đăng ký học bổng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    // Check setting
+    var allowReg = false;
+    using (var settingBUS = new SettingBUS())
+    {
+        try
+        {
+            allowReg = settingBUS.GetValueByKey<bool>(SettingKeys.ALLOW_SCHOLARSHIP.ToString());
+        }
+        catch
+        {
+            // Do nothing
+        }
+    }
+}
+
+<style>
+    .logo-company {
+        max-width: 70%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 100px;
+        cursor: pointer
+    }
+</style>
+
+@section scripts {
+    <script src="~/Assets/js/user_page/scholarship.js"></script>
+}
+
+<section class="call-to-action text-white text-center" style=" background: lightblue url('https://i.ytimg.com/vi/vGzpIvlINzQ/maxresdefault.jpg') no-repeat; background-size: cover; ">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <h1 class="mb-4">
+                    ĐĂNG KÝ XÉT HỌC BỔNG<br />
+                    HUTECH IT OPEN DAY 2022
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5 mt-5 pl-5 pr-5">
+    <br />
+    <br />
+
+    <div class="row">
+        @foreach (var company in JobFair.Shared.MasterData.CompanyData.GetSponsorsScholarship())
+        {
+            <div class="col">
+                <img class="logo-company" src="~/Assets/img/logo_company/@company.Logo" alt="@company.Name">
+            </div>
+        }
+    </div>
+    <br />
+    <br />
+    <br />
+
+
+    <div class="alert alert-info" role="alert">
+        Đối tượng đăng ký: Sinh viên ngành CNTT các Khoa/Viện đang học tập tại HUTECH
+    </div>
+
+    <form id="form">
+        <div class="form-group">
+            <label for="studentCode">Mã số sinh viên</label>
+            <input type="text" class="form-control" id="studentCode" name="studentCode">
+        </div>
+        <div class="form-group">
+            <label for="studentName">Họ tên của bạn</label>
+            <input type="text" class="form-control" onchange="autoBeautyFullname()" id="studentName" name="studentName">
+        </div>
+        <div class="form-group">
+            <label for="studentClass">Lớp của bạn</label>
+            <input type="text" class="form-control" style="text-transform: uppercase" id="studentClass" name="studentClass">
+        </div>
+        <div class="form-group">
+            <label for="studentEmail">Email liên hệ</label>
+            <input type="email" class="form-control" id="studentEmail" name="studentEmail">
+        </div>
+        <div class="form-group">
+            <label for="studentPhone">Số điện thoại</label>
+            <input type="text" maxlength="10" class="form-control" id="studentPhone" name="studentPhone">
+        </div>
+
+        <div class="form-group">
+            <label>Các thành tích, hoạt động của khoa, trường, các cấp tổ chức mà bạn đã tham gia</label>
+            <textarea class="form-control" name="studentActivities" id="studentActivities" maxlength="1000"></textarea>
+        </div>
+
+        <label>Điểm trung bình tích lũy hệ 4</label>
+        <div class="input-group">
+
+            <input type="number" max="4" min="0" class="form-control" id="studentPoint" name="studentPoint" aria-label="Tính đến học kỳ gần nhất" placeholder="Tính đến học kỳ gần nhất" required>
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-outline-danger" type="button" data-toggle="modal" data-target="#HuongDanXemGPA">Hướng dẫn xem điểm</button>
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="name">Bảng điểm của bạn (file pdf hoặc excel)</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file1" name="file1" accept=".pdf,.csv,.xlsx,.xls">
+                <label class="custom-file-label" for="file1">Choose file</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="name">CV của bạn (file pdf)</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file2" name="file2" accept=".pdf">
+                <label class="custom-file-label" for="file2">Choose file</label>
+            </div>
+        </div>
+
+        <br />
+        <div class="form-group">
+            <label>Bạn là?</label><br>
+
+            @foreach (var item in JobFair.Shared.MasterData.StudentRoleData.GetList())
+            {
+                if (item.IsShow != true)
+                {
+                    continue;
+                }
+
+                <div class="radio">
+                    <label><input type="checkbox" name="studentRole" value="@item.Value"> @item.Name</label>
+                </div>
+            }
+        </div>
+
+        <br />
+        <div class="text-center" id="reg">
+            @if (!allowReg)
+            {
+                <p style="color: red">Cổng đăng ký xét học bổng đã đóng, vui lòng liên hệ khoa CNTT để biết thêm thông tin chi tiết</p>
+            }
+            <button type="button" class="btn btn-primary btn-lg" id="submit" onclick="submitData()" @(!allowReg ? "disabled" : "")>ĐĂNG KÝ XÉT HỌC BỔNG</button>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="HuongDanXemGPA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hướng dẫn xem điểm tích lũy hệ 4</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><b>Bước 1: </b> vào trang <a target="_blank" href="http://daotao.hutech.edu.vn">daotao.hutech.edu.vn</a> và đăng nhập vào tài khoản sinh viên của bạn</p>
+                <p><b>Bước 2: </b> vào mục <a target="_blank" href="http://daotao.hutech.edu.vn/Default.aspx?page=xemdiemthi">xem điểm</a> và chọn <b style="color: red">Xem tất cả học kỳ</b></p>
+                <p><b>Bước 3: </b> xem học kỳ gần nhất (gần nhất hiện tại là <b>Học kỳ 1 - Năm học 2019-2020</b>), xem dòng <b>Điểm trung bình tích lũy (hệ 4)</b></p>
+                @*<img src="/assets/img/huongdan.png" alt="Huong dan xem diem">*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

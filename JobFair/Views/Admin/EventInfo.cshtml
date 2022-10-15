@@ -1,0 +1,10 @@
+﻿@model JobFair.ViewModels.EventViewModel
+
+@{
+    ViewBag.Title = "Thông tin hội thảo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Html.RenderPartial("Components/_EventInfo", Model);
+}

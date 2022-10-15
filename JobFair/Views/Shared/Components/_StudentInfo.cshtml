@@ -1,0 +1,65 @@
+﻿
+<script src="~/Assets/js/user_page/myinfo.js"></script>
+
+<!-- Modal Login -->
+<div class="modal fade" id="modalUserInfo" tabindex="-1" role="dialog" aria-labelledby="modalUserInfoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUserInfoLabel">Thông tin của bạn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div id="infoLoading" class="text-center" style="padding-top: 60px; display: none">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <p class="text-center">Vui lòng đợi trong giây lát</p>
+            </div>
+
+            <div class="modal-body" id="infoContent">
+
+                <ul class="nav nav-tabs" id="userInfoTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="cv-tab" data-toggle="tab" href="#cvContentTab" role="tab" aria-controls="home" aria-selected="true">CV của bạn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="changepass-tab" data-toggle="tab" href="#changepassContentTab" role="tab" aria-controls="profile" aria-selected="false">Đổi mật khẩu</a>
+                    </li>
+                </ul>
+                <br />
+                <div class="tab-content" id="userInfoTabContent">
+                    <div class="tab-pane fade show active" id="cvContentTab" role="tabpanel" aria-labelledby="cv-tab">
+                        <form id="cvForm">
+                            <div class="form-group">
+                                <label for="name">Upload CV mới của bạn</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="infoCV" name="infoCV" accept=".pdf">
+                                    <label class="custom-file-label" for="regCV">Choose file</label>
+                                </div>
+                            </div>
+
+                            <div class="text-right">
+                                <a role="button" target="_blank" href="@Url.Action("MyCV", "ViewFile")" class="btn btn-outline-primary">Xem CV của tôi</a>
+                                <button type="button" onclick="updateCV()" id="updateCVSubmit" class="btn btn-primary">Cập nhật CV</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="changepassContentTab" role="tabpanel" aria-labelledby="changepass-tab">
+                        @{ 
+                            ViewBag.ChangePass = true;
+                            Html.RenderPartial("Components/_ChangePassword");
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

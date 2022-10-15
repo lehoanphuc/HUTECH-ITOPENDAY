@@ -1,0 +1,78 @@
+﻿@using JobFair.Services.BUS
+@{
+    ViewBag.Title = "Phỏng Vấn Online";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@{
+    // Get list event available
+    var companyBus = new CompanyBUS();
+
+    // Lấy setting cho button interview
+    bool allowInterview = false;
+    var settingBus = new SettingBUS();
+    try
+    {
+        allowInterview = settingBus.GetValueByKey<bool>(JobFair.Shared.Constants.SettingKeys.ALLOW_INTERVIEW.ToString());
+    }
+    catch
+    {
+        // Do nothing
+    }
+}
+
+<style>
+    .logo-company {
+        max-width: 70%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 100px
+    }
+
+    .parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px
+    }
+</style>
+<section class="call-to-action text-white text-center" style=" background: lightblue url('https://channel.mediacdn.vn/2021/4/26/photo-3-1619414905297992638061.jpg') no-repeat fixed; ">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <h1 class="mb-4">
+                    INTERVIEW ONLINE
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5 mt-5 pl-5 pr-5">
+
+    @if (!allowInterview)
+    {
+        <div class="alert alert-info" role="alert">
+            Chức năng này sẽ được mở vào ngày 08/04/2022, vui lòng quay trở lại sau.
+        </div>
+
+    }
+    else
+    {
+        <p>Bấm vào công ty mà bạn muốn vào phòng phỏng vấn</p>
+
+        <div class="row" style="padding-bottom: 100px">
+            @foreach (var company in companyBus.GetList())
+            {
+                <div class="col-3 mb-3">
+                    <div class="parent">
+                        <img class="logo-company" src="~/Assets/img/logo_company/@company.Logo" alt="@company.Name">
+                    </div>
+                    <a role="button" class="btn btn-sm btn-block btn-danger" target="_blank" href="@company.MeetingLink"><i class="fa-solid fa-circle fa-beat-fade"></i> Interview Online</a>
+                </div>
+            }
+        </div>
+    }
+</div>

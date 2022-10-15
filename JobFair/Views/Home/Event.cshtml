@@ -1,0 +1,87 @@
+﻿@using JobFair.Services.BUS
+@{
+    ViewBag.Title = "Hội thảo";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@{
+    // Get list event available
+    var bus = new EventBUS();
+    var listEventAvailable = bus.GetList(true);
+}
+
+@section scripts {
+    <script src="~/Assets/js/user_page/event.js"></script>
+}
+
+<section class="call-to-action text-white text-center" style=" background: lightblue url('https://channel.mediacdn.vn/2021/4/26/photo-3-1619414905297992638061.jpg') no-repeat fixed; ">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <h1 class="mb-4">
+                    CỔNG ĐĂNG KÝ THAM GIA<br />
+                    HỘI THẢO
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5 mt-5 pl-5 pr-5">
+    <p>Bấm vào các sự kiện, hội thảo mà bạn muốn đăng ký bên dưới. Bạn có thể chọn nhiều sự kiện cùng một lúc</p>
+    <p>Vui lòng kiểm tra kỹ các buổi hội thảo, trường hợp sai sót bạn có thể gửi lại thông tin, hệ thống sẽ ghi nhận thông tin đăng ký mới nhất của bạn.</p>
+
+    <div class="row">
+        @foreach (var item in listEventAvailable)
+        {
+            <div class="col-sm-4">
+                <div class="card event-card mb-3" eventId="@item.Id" onclick="selectEvent(@item.Id)">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            @item.Name.ToUpper()
+                        </h5>
+                        <p class="card-text">
+                            @if (!string.IsNullOrEmpty(item.Description))
+                            {
+                                <i>@item.Description</i>
+                                <br />
+                            }
+                            <i class="fa-solid fa-calendar-days"></i> @item.Time
+                            <br />
+
+                            @if (!string.IsNullOrEmpty(item.Place))
+                            {
+                                <i class="fa-solid fa-location-dot"></i> @item.Place
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <p>Thông tin đăng ký tham gia của bạn:</p>
+    <div class="form-group">
+        <label for="studentCode">Mã số sinh viên</label>
+        <input type="text" class="form-control" id="studentCode">
+    </div>
+    <div class="form-group">
+        <label for="studentName">Họ tên của bạn</label>
+        <input type="text" class="form-control" onchange="autoBeautyFullname()" id="studentName">
+    </div>
+    <div class="form-group">
+        <label for="studentClass">Lớp của bạn</label>
+        <input type="text" class="form-control"  style="text-transform: uppercase" id="studentClass">
+    </div>
+    <div class="form-group">
+        <label for="studentEmail">Email liên hệ</label>
+        <input type="email" class="form-control" id="studentEmail">
+    </div>
+    <div class="form-group">
+        <label for="studentPhone">Số điện thoại</label>
+        <input type="text" maxlength="10" class="form-control" id="studentPhone">
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-lg btn-primary" type="button" id="submit" onclick="submitData()">Đăng ký tham gia</button>
+    </div>
+</div>

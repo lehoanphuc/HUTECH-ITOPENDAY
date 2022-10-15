@@ -1,0 +1,10 @@
+﻿@model JobFair.ViewModels.CompanyViewModel
+
+@{
+    ViewBag.Title = "Thông tin công ty";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Html.RenderPartial("Components/_CompanyInfo", Model);
+}

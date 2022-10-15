@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách đầu việc";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section scripts {
+    <script src="~/Assets/js/page/jobtitle.js"></script>
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+</div>
+<div class="row border-bottom mb-3">
+    <div class="col-8">
+        <h2 class="h2">@ViewBag.Title</h2>
+    </div>
+</div>
+
+<div class="card" id="new">
+    <div class="card-header">
+        Tạo mới đầu việc
+    </div>
+    <div class="card-body">
+        <div class="input-group mb-3">
+            <input name="id" value="0" hidden/>
+            <input type="text" class="form-control" name="title" placeholder="Tên đầu việc" aria-label="Tên đầu việc">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onclick="saveData($(this))">Tạo mới</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loading" class="text-center" style="padding-top: 60px">
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="result" style="padding-top: 20px; display: none">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Tên đầu việc</th>
+                <th scope="col" class="text-right">Action</th>
+            </tr>
+        </thead>
+        <tbody id="dataTable">
+        </tbody>
+    </table>
+</div>

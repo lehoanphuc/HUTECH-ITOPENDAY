@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewBag.Title = "Tạo mới hội thảo";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Html.RenderPartial("Components/_EventInfo", new JobFair.ViewModels.EventViewModel());
+}

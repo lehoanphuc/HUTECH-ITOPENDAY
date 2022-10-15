@@ -1,0 +1,134 @@
+﻿@model JobFair.ViewModels.CompanyViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    // Lấy setting cho button interview
+    bool allowInterview = false;
+    var bus = new JobFair.Services.BUS.SettingBUS();
+    try
+    {
+        allowInterview = bus.GetValueByKey<bool>(JobFair.Shared.Constants.SettingKeys.ALLOW_INTERVIEW.ToString());
+    }
+    catch
+    {
+        // Do nothing
+    }
+}
+
+<style>
+    .call-to-action:before {
+        content: "";
+        position: absolute;
+        background-color: #0d2330;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.8;
+    }
+</style>
+
+@section scripts {
+    @*Hard code this variable below*@
+    <script>
+        var filterCompanyIDs = [@Model.Id];
+    </script>
+    <script src="~/Assets/js/user_page/companyinfo.js"></script>
+    <script src="~/Assets/js/user_page/companyjob.js"></script>
+}
+
+<section class="call-to-action text-white text-center" style=" background: lightblue url('https://www.hutech.edu.vn/imgnews/homepage/stories/hinh77-afd/1.jpg') no-repeat fixed; ">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <img src="~/Assets/img/logo_company/@Model.Logo" alt="LOGO" width="50%" />
+                <h1 class="mb-4">
+                    @Model.Name.ToUpper()
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5 mt-5 pl-5 pr-5">
+    <p class="display-4">Giới thiệu công ty</p>
+
+    <div class="row">
+        <div class="col-12 col-md-@(Model.JobTitleIds.Count > 0 ? "8" : "12") order-sm-1 order-2">
+            @if (!string.IsNullOrEmpty(Model.Video))
+            {
+                var url = Model.Video;
+                try
+                {
+                    var id = url.Split('=')[1];
+                    url = "https://www.youtube.com/embed/" + id;
+                }
+                catch
+                {
+                    try
+                    {
+                        var id = url.Split('/').Last();
+                        url = "https://www.youtube.com/embed/" + id;
+                    }
+                    catch
+                    {
+                        // So urgly but im lazy now
+                    }
+                }
+
+                <iframe width="100%" height="400" src="@url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            <br />
+            <br />
+            <p>@Model.Description</p>
+
+            <hr />
+
+            <div @(Model.JobTitleIds.Count > 0 ? "" : "hidden")>
+                <p class="display-4">Tuyển dụng</p>
+                <div id="loading" class="text-center" style="padding-top: 60px">
+                    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div id="result" style="display: none">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="lead">
+                                @Model.Name hiện đang tuyển dụng <b id="count"></b> đầu việc
+                            </p>
+                        </div>
+                        <div class="col-4 text-right">
+                            <button class="btn btn-sm btn-primary" id="applyAllButton" onclick="applyAll()">Nộp CV vào tất cả các vị trí bên dưới</button>
+                        </div>
+                    </div>
+
+                    <div id="dataTable">
+
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        @if (Model.JobTitleIds.Count > 0)
+        {
+            <div class="col-12 col-md-4 order-sm-2 order-1">
+                @if (allowInterview)
+                {
+                    <a role="button" class="btn btn-lg btn-block btn-danger" target="_blank" href="@Model.MeetingLink"><i class="fa-solid fa-circle fa-beat-fade"></i> Interview Online</a>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-lg btn-block btn-danger" disabled><i class="fa-solid fa-circle fa-beat-fade"></i> Interview Online</button>
+                }
+
+                <a role="button" class="btn btn-lg btn-block btn-primary" target="_blank" href="@Model.LinkJD"><i class="fa-solid fa-info"></i> Thông tin tuyển dụng</a>
+                <a role="button" class="btn btn-lg btn-block btn-primary" href="#result"><i class="fa-solid fa-paper-plane"></i> Ứng tuyển</a>
+            </div>
+        }
+
+    </div>
+</div>

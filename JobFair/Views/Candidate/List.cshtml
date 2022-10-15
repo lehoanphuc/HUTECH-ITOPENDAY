@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "Danh sách ứng viên";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var filterModel = (JobFair.ViewModels.CandidateFilterViewModel)ViewBag.Filter;
+
+
+    // Lấy setting
+    bool allowCV = false;
+    var bus = new JobFair.Services.BUS.SettingBUS();
+    try
+    {
+        allowCV = bus.GetValueByKey<bool>(JobFair.Shared.Constants.SettingKeys.ALLOW_CV.ToString());
+    }
+    catch
+    {
+        // Do nothing
+    }
+
+    if (JobFair.Helpers.SessionHelper.GetUser().IdRole == (int)JobFair.Shared.Constants.RoleKeys.ADMIN)
+    {
+        allowCV = true;
+    }
+}
+
+
+@section scripts {
+    <script>
+        var _ALLOW_CV = @(allowCV ? "true" : "false");
+    </script>
+    <script src="~/Assets/js/page/candidate.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+</div>
+<div class="row border-bottom mb-3">
+    <div class="col-12">
+        <h2 class="h2">@ViewBag.Title</h2>
+    </div>
+</div>
+
+@if (JobFair.Helpers.SessionHelper.GetUser().IdRole == (int)JobFair.Shared.Constants.RoleKeys.ADMIN)
+{
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" name="allowReg" onclick="toggleAllowViewCV()" id="customSwitch1" @(allowCV == true ? "checked" : "")>
+        <label class="custom-control-label" for="customSwitch1">Cho phép công ty xem thông tin ứng viên</label>
+    </div>
+    <br />
+}
+
+<div class="row">
+    <div class="col-5">
+        <div class="form-group">
+            <label for="idCompany">Xem theo công ty</label>
+            <select class="form-control" id="idCompany" name="idCompany" onchange="changeCompany()">
+                @foreach (var company in filterModel.Companies)
+                {
+                    <option value="@company.Id" support-jobtitle="@string.Join(",", company.JobTitleIds)">@company.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="form-group">
+            <label for="idJobTitle">Xem theo vị trí tuyển dụng</label>
+            <select class="form-control" id="idJobTitle" name="idJobTitle">
+                <option value="">Toàn bộ</option>
+                @foreach (var jobTitle in filterModel.JobTitles)
+                {
+                    <option value="@jobTitle.Id" class="jobTitle">@jobTitle.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col">
+        <label>&nbsp;</label>
+        <button type="button" class="btn btn-block btn-primary" onclick="getData()">Xem</button>
+    </div>
+</div>
+
+<div id="loading" class="text-center" style="padding-top: 60px">
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div id="result" style="padding-top: 20px; display: none">
+
+
+    <div class="row">
+        <div class="col-10">
+            <h6>Danh sách này có tổng cộng <b id="count"></b> ứng viên</h6>
+        </div>
+        <div class="col text-right">
+            <button type="button" class="btn btn-block btn-primary" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Export Excel File</button>
+        </div>
+    </div>
+
+    <br />
+    <table class="table" id="exportTable">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">MSSV</th>
+                <th scope="col">Họ tên ứng viên</th>
+                <th scope="col">Lớp</th>
+                @if (allowCV)
+                {
+                    <th scope="col">Email</th>
+                    <th scope="col">Số điện thoại</th>
+                }
+                <th scope="col">Vị trí</th>
+                @if (allowCV)
+                {
+                    <th scope="col" class="text-right">Action</th>
+                }
+            </tr>
+        </thead>
+        <tbody id="dataTable">
+        </tbody>
+    </table>
+</div>

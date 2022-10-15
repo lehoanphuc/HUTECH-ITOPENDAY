@@ -1,0 +1,73 @@
+﻿@using JobFair.Shared.MasterData
+@using JobFair.Services.BUS
+@{ 
+    // Lấy danh sách công ty tài trợ
+    var settingBUS = new SettingBUS();
+}
+<style>
+    .logo-company {
+        max-width: 70%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 100px;
+        cursor: pointer
+    }
+
+
+    .parent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 150px
+    }
+</style>
+
+<section class="testimonials text-center bg-white" id="company">
+    <div class="container">
+        <h1 class="mb-5">ĐƠN VỊ ĐỒNG HÀNH TỔ CHỨC</h1>
+        <div class="row" style="padding-bottom: 100px; padding-top: 50px">
+            @foreach (var company in CompanyData.GetCoOrganizer())
+            {
+                <div class="col-lg-3 parent">
+                    <img class="logo-company mb-3" src="~/Assets/img/logo_company/@company.Logo" alt="@company.Name">
+                </div>
+            }
+        </div>
+
+        <br />
+        <h1 class="mb-5">CÁC ĐƠN VỊ TÀI TRỢ</h1>
+
+        @* @foreach (var listCompany in settingBUS.GetListSponsor()) *@
+        @* { *@
+        @*     if (listCompany == null ||  *@
+        @*         listCompany.Company is null ||  *@
+        @*         listCompany.Company.Count == 0) *@
+        @*     { *@
+        @*         continue; *@
+        @*     } *@
+        @* *@
+        @*     var itemPerRow = listCompany.Company.Count > 4 ? 4 : listCompany.Company.Count; *@
+        @*     itemPerRow = 12 / itemPerRow; *@
+        @* *@
+        @*     <h2 class="mb-5"><span class="badge badge-secondary">@listCompany.Title.ToUpper()</span></h2> *@
+        @*     <div class="row" style="padding-bottom: 50px"> *@
+        @*         @foreach (var company in listCompany.Company) *@
+        @*         { *@
+        @*             if (company == null) *@
+        @*             { *@
+        @*                 continue; *@
+        @*             } *@
+        @* *@
+        @*             <div class="col-lg-@itemPerRow parent"> *@
+        @*                 <img class="logo-company mb-3"  *@
+        @*                      src="/Assets/img/logo_company/@company.Logo"  *@
+        @*                      alt="@company.Name" *@
+        @*                      onclick="location.href = '/company/@company.Name'"> *@
+        @*             </div> *@
+        @*         } *@
+        @*     </div> *@
+        @* } *@
+    </div>
+</section>

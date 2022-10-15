@@ -1,0 +1,133 @@
+﻿@using JobFair.Services.BUS
+@{
+    ViewBag.Title = "Tìm việc làm";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+
+    // Get list company & list job title
+    var companyBUS = new CompanyBUS();
+    var jobTitleBUS = new JobTitleBUS();
+}
+
+<style>
+    .logo-company {
+        max-width: 90%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-height: 100px;
+        cursor: pointer
+    }
+</style>
+
+@section scripts {
+    <script src="~/Assets/js/user_page/findjob.js"></script>
+    <script src="~/Assets/js/user_page/companyjob.js"></script>
+}
+
+<section class="call-to-action text-white text-center" style=" background: lightblue url('https://file1.hutech.edu.vn/file/editor/homepage/stories/hinh208-fdg/_MG_0003.jpg') no-repeat; background-size: cover; ">
+    <div class="container position-relative">
+        <div class="row justify-content-center">
+            <div>
+                <h1 class="mb-4">
+                    ỨNG TUYỂN THỰC TẬP/VIỆC LÀM
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mb-5 mt-5 pl-5 pr-5">
+    <div class="row">
+        <div class="col-12 col-md-3 bg-light p-3" style="border-radius: 5px">
+            <div class="mb-3 text-center">
+                <a href="#clear" onclick="clearFilter()"><b><i class="fa-solid fa-filter"></i> Hiển thị toàn bộ</b></a>
+            </div>
+            <ul class="nav nav-tabs" id="filterTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="job-tab" data-toggle="tab" href="#filterJob" role="tab" aria-controls="filterJob" aria-selected="true">Lọc vị trí</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="company-tab" data-toggle="tab" href="#filterCompany" role="tab" aria-controls="filterCompany" aria-selected="false">Lọc công ty</a>
+                </li>
+            </ul>
+            <br />
+            <div class="tab-content" id="filterTabContent">
+                <div class="tab-pane fade show active" id="filterJob" role="tabpanel" aria-labelledby="job-tab">
+                    <p>Tìm theo vị trí công việc</p>
+
+                    @foreach (var jobTitle in jobTitleBUS.GetList())
+                    {
+                        <button type="button"
+                                class="btn mb-1 btn-block btn-sm btn-outline-primary filter-button"
+                                jobTitle="@jobTitle.Id"
+                                onclick="selectJobTitleID(@jobTitle.Id)">
+                            @jobTitle.Title
+                        </button>
+                    }
+                </div>
+                <div class="tab-pane fade" id="filterCompany" role="tabpanel" aria-labelledby="company-tab">
+                    <p>Tìm theo công ty</p>
+
+                    @foreach (var company in companyBUS.GetListHaveJob())
+                    {
+                        <button type="button"
+                                class="btn mb-1 btn-block btn-sm btn-outline-primary filter-button"
+                                company="@company.Id"
+                                onclick="selectCompanyID(@company.Id)">
+                            @company.Name
+                        </button>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-12 col-sm-9 pl-3">
+            <div id="loading" class="text-center" style="padding-top: 60px">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+            <div id="result" class="p-3" style="display: none">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="lead">
+                            Tìm thấy <b id="count"></b> vị trí tuyển dụng phù hợp với bạn
+                        </p>
+                    </div>
+                    <div class="col-4 text-right">
+                        <button class="btn btn-sm btn-primary" id="applyAllButton" onclick="applyAll()">Nộp CV vào tất cả các vị trí bên dưới</button>
+                    </div>
+                </div>
+                <div id="dataTable">
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@*This is template, i just want to saved
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 d-none d-md-block">
+                    <img class="logo-company" src="/Assets/img/logo_company/3.png?v=2" />
+                </div>
+                <div class="col-9 col-md-6 mb-1">
+                    <h5 class="card-title">FPT Software</h5>
+                    <p class="card-text">
+                        FPT Software tuyển dụng vị trí ABC<br />
+                        <a href="#">Xem tin tuyển dụng</a>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3">
+                    <a href="#" class="btn btn-sm btn-block btn-outline-danger">Phỏng vấn Online</a>
+                    <a href="#" class="btn btn-sm btn-block btn-primary"><i class="fa-solid fa-paper-plane"></i> Nộp CV</a>
+                </div>
+            </div>
+        </div>
+    </div>*@

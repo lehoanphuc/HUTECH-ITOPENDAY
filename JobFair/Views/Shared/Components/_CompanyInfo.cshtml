@@ -1,0 +1,93 @@
+﻿@model JobFair.ViewModels.CompanyViewModel
+@{
+    // Lấy list đầu việc thông qua BUS
+    var jobTitleBUS = new JobFair.Services.BUS.JobTitleBUS();
+    var listJobTitle = jobTitleBUS.GetList();
+}
+
+<script src="~/Assets/js/page/companyinfo.js"></script>
+
+<br />
+<form>
+    <div class="card">
+        <div class="card-header">
+            Thông tin công ty
+        </div>
+        <div class="card-body">
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Thông tin cơ bản</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Thông tin tuyển dụng</a>
+                </li>
+            </ul>
+            <br />
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                    <input value="@Model.Id" id="id" name="Id" hidden />
+                    <div class="form-group">
+                        <label for="name">Tên công ty</label>
+                        <input type="text" class="form-control" id="name" name="Name" value="@(Model.Id == 0 ? "" : Model.Name)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Logo công ty</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="logofile" name="logofile" accept=".png">
+                            <label class="custom-file-label" for="logofile">Choose file</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Mô tả ngắn</label>
+                        <textarea class="form-control" id="description" name="Description" rows="3" maxlength="500">@(Model.Id == 0 ? "" : Model.Description)</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="linkjd">Link tin tuyển dụng</label>
+                        <input type="text" name="LinkJD" class="form-control" value="@(Model.Id == 0 ? "" : Model.LinkJD)" id="linkjd">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="meetinglink">Link google meet</label>
+                        <input type="text" name="MeetingLink" class="form-control" value="@(Model.Id == 0 ? "" : Model.MeetingLink)" id="meetinglink">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="video">Video youtube</label>
+                        <input type="text" name="Video" class="form-control" value="@(Model.Id == 0 ? "" : Model.Video)" id="video">
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <p>Đánh đấu vào các vị trí đầu việc mà công ty này tuyển dụng, sau đó ấn nút lưu.</p>
+                    <div class="row">
+                        @foreach (var item in listJobTitle)
+                        {
+                            string propChecked = "";
+                            if (Model.Id > 0 && Model.JobTitleIds != null && Model.JobTitleIds.Any(x => x == item.Id))
+                            {
+                                propChecked = "checked";
+                            }
+
+                            <div class="col-4">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="jobTitle" value="@item.Id" class="custom-control-input" id="checkJobTitle-@item.Id" @propChecked>
+                                    <label class="custom-control-label" for="checkJobTitle-@item.Id">@item.Title</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <button class="btn btn-primary" type="button" id="submit" onclick="saveData()"><i class="fa-solid fa-floppy-disk"></i> @(Model.Id == 0 ? "Tạo mới" : "Lưu lại")</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>

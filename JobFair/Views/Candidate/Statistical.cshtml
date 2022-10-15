@@ -1,0 +1,57 @@
+﻿@model Dictionary<(string, string), int>
+@{
+    ViewBag.Title = "Thống kê số lượng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var companies = Model.Keys.Select(x => x.Item1).Distinct().ToList();
+    var jobTitles = Model.Keys.Select(x => x.Item2).Distinct().ToList();
+    var totalCV = Model.Select(x => x.Value).Sum();
+}
+
+@section scripts {
+    <script src="~/Assets/js/page/candidate.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+</div>
+<div class="row border-bottom mb-3">
+    <div class="col-8">
+        <h2 class="h2">@ViewBag.Title</h2>
+    </div>
+    <div class="col-4 text-right">
+        <button type="button" class="btn btn-primary" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Export Excel File</button>
+    </div>
+</div>
+<div class="table-responsive">
+    <h6>Tổng cộng có <b>@totalCV</b> lượt nộp CV</h6>
+
+    <table class="table table-bordered" id="exportTable">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                @foreach (var company in companies)
+                {
+                    <th scope="col">@company</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var jobTitle in jobTitles)
+            {
+                <tr>
+                    <th scope="row">@jobTitle</th>
+                    @foreach (var company in companies)
+                    {
+                        var count = -1;
+                        if (Model.ContainsKey((company, jobTitle)))
+                        {
+                            count = Model[(company, jobTitle)];
+                        }
+
+                        <td>@(count < 0 ? "" : count.ToString())</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

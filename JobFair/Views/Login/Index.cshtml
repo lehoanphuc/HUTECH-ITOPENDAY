@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+@section scripts
+{
+    <script>
+        function onSubmit(token) {
+            $("#Token").val(token);
+            document.getElementsByClassName("form-signin")[0].submit();
+        }
+    </script>
+}
+
+@using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form-signin" }))
+{
+    <h1 class="h3 mb-3 font-weight-normal">HUTECH IT OPENDAY</h1>
+
+    if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Error
+        </div>
+    }
+    <input name="Token" value="" id="Token" hidden/>
+    <label for="inputUsername" class="sr-only">Tài khoản</label>
+    <input type="text" id="inputUsername" name="Username" class="form-control" placeholder="Tài khoản" required autofocus>
+    <label for="inputPassword" class="sr-only">Mật khẩu</label>
+    <input type="password" id="inputPassword" name="Password" class="form-control" placeholder="Mật khẩu" required>
+    <button class="btn btn-lg btn-primary btn-block g-recaptcha"
+            data-sitekey="@JobFair.Shared.MasterData.WebSettingData.CaptchaSiteID"
+            data-callback='onSubmit'
+            data-action='submit'>
+        Đăng nhập
+    </button>
+    <p class="mt-5 mb-3 text-muted">&copy; Vinh Pham Ngoc</p>
+}

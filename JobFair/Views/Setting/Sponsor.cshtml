@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Thiết lập nhà tài trợ";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    string value = "";
+    var bus = new JobFair.Services.BUS.SettingBUS();
+    try
+    {
+        value = bus.GetValueByKey<string>(JobFair.Shared.Constants.SettingKeys.SETTING_SPONSOR.ToString());
+    }
+    catch
+    {
+        value = "";
+    }
+}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+</div>
+<div class="row border-bottom mb-3">
+    <div class="col-8">
+        <h2 class="h2">@ViewBag.Title</h2>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("Sponsor", "Setting", FormMethod.Post))
+{
+    if (ViewBag.Success != null)
+    {
+        <div class="alert alert-primary" role="alert">
+            @ViewBag.Success
+        </div>
+    }
+    else if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="form-group">
+        <label for="exampleFormControlTextarea1">Danh sách các nhà tài trợ</label>
+        <textarea class="form-control" name="value" rows="10">@value</textarea>
+    </div>
+
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Lưu lại</button>
+    </div>
+}

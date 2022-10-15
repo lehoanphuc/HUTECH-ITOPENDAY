@@ -1,0 +1,14 @@
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.Shared.dll
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.Shared.pdb
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.ViewModels.dll
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.DomainModels.dll
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/EntityFramework.dll
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.ViewModels.pdb
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.DomainModels.pdb
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/JobFair.DomainModels.dll.config
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/bin/Release/EntityFramework.xml
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/obj/Release/JobFair.Shared.csproj.AssemblyReference.cache
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/obj/Release/JobFair.Shared.csproj.CoreCompileInputs.cache
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/obj/Release/JobFair.Shared.csproj.CopyComplete
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/obj/Release/JobFair.Shared.dll
+/Users/lehoanphuc/Downloads/HutechJobFair-main/JobFair.Shared/obj/Release/JobFair.Shared.pdb

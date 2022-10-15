@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page - @JobFair.Shared.MasterData.WebSettingData.Title</title>
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="~/Assets/css/login.css">
+</head>
+<body class="text-center">
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://www.google.com/recaptcha/api.js?render=@JobFair.Shared.MasterData.WebSettingData.CaptchaSiteID"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

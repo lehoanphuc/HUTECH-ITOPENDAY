@@ -1,0 +1,136 @@
+﻿
+<script src="~/Assets/js/user_page/studentlogin.js"></script>
+
+<!-- Modal Login -->
+<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLoginLabel">Cổng thông tin tuyển dụng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div id="loginLoading" class="text-center" style="padding-top: 60px; display: none">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <p class="text-center">Vui lòng đợi trong giây lát</p>
+            </div>
+
+            <div class="modal-body" id="loginContent">
+
+                <ul class="nav nav-tabs" id="loginTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#loginContentTab" role="tab" aria-controls="home" aria-selected="true">Đăng nhập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="reg-tab" data-toggle="tab" href="#regContentTab" role="tab" aria-controls="profile" aria-selected="false">Đăng ký</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="forgotpassword-tab" data-toggle="tab" href="#forgotpasswordContentTab" role="tab" aria-controls="forgotpassword" aria-selected="false">Quên mật khẩu</a>
+                    </li>
+                </ul>
+                <br />
+                <div class="tab-content" id="loginTabContent">
+                    <div class="tab-pane fade show active" id="loginContentTab" role="tabpanel" aria-labelledby="login-tab">
+                        <div class="form-group">
+                            <label for="loginUsername">Tài khoản hoặc MSSV</label>
+                            <input type="text" class="form-control" id="loginUsername" placeholder="Tài khoản hoặc MSSV">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Mật khẩu</label>
+                            <input type="password" class="form-control" id="loginPassword" placeholder="Mật khẩu">
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline-primary" onclick="openRegTab()">Đăng ký</button>
+                            <button type="button" onclick="login()" id="loginSubmit" class="btn btn-primary">Đăng nhập</button>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="regContentTab" role="tabpanel" aria-labelledby="reg-tab">
+
+                        <form id="regForm">
+                            <div class="form-group">
+                                <label for="regCode">Tài khoản hoặc MSSV</label>
+                                <input type="text" class="form-control" id="regUsername" name="regUsername" placeholder="Tài khoản hoặc MSSV">
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="regPassword">Mật khẩu</label>
+                                        <input type="password" class="form-control" id="regPassword" name="regPassword" placeholder="Mật khẩu">
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="regRePassword">Nhập lại mật khẩu</label>
+                                        <input type="password" class="form-control" id="regRePassword" name="regRePassword" placeholder="Nhập lại mật khẩu">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="regName">Họ tên</label>
+                                <input type="text" class="form-control" onchange="autoBeautyFullname()" id="regName" name="regName" placeholder="Họ tên của bạn">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="regClass">Lớp của bạn</label>
+                                <input type="text" class="form-control" style="text-transform: uppercase" id="regClass" name="regClass" placeholder="Lớp của bạn">
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="regEmail">Email</label>
+                                        <input type="email" class="form-control" id="regEmail" name="regEmail" placeholder="Email của bạn">
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="regPhone">Số điện thoại</label>
+                                        <input type="text" class="form-control" id="regPhone" name="regPhone" placeholder="Số điện thoại">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">CV của bạn</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="regCV" name="regCV" accept=".pdf">
+                                    <label class="custom-file-label" for="regCV">Choose file</label>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="text-right">
+                            <button type="button" onclick="reg()" id="regSubmit" class="btn btn-primary">Đăng ký</button>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="forgotpasswordContentTab" role="tabpanel" aria-labelledby="forgotpassword-tab">
+                        <div class="form-group">
+                            <label for="forgotUsername">Tài khoản của bạn</label>
+                            <input type="text" class="form-control" id="forgotUsername" name="forgotUsername" placeholder="Tài khoản của bạn">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="forgotEmail">Email đăng ký tài khoản của bạn</label>
+                            <input type="email" class="form-control" id="forgotEmail" name="forgotEmail" placeholder="Email của bạn">
+                        </div>
+
+                        <div class="text-right">
+                            <button type="button" onclick="resetPassword()" id="resetSubmit" class="btn btn-primary">Khôi phục mật khẩu</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "Avatar ngày hội HUTECH IT OPEN DAY";
+    ViewBag.AppDescription = ViewBag.WebTitle;
+    ViewBag.AppIMG = "/Assets/img/banner1.jpg";
+    ViewBag.FooterEvent = true;
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<link href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+
+<div class="container" style="padding-top: 45px; padding-bottom: 45px">
+    <p class="lead">@ViewBag.Title</p>
+    <div class="row">
+        <div class="col-md-6 col-sm" id="imgDiv">
+            <canvas id="stcanvas" width="400" height="400" style="background-color:#eee"></canvas>
+            <canvas id="stcanvas_review" width="400" height="400" style="background-color:#eee" hidden></canvas>
+        </div>
+        <div class="col-md col-sm">
+            <div class="text-center" id="loadingDiv">
+                <i class="fa fa-circle-o-notch fa-spin fa-4x fa-fw"></i><br />
+                <p style="padding-top: 20px">Đang tải hình ảnh...</p>
+            </div>
+
+            <div class="container-fluid" id="controlDiv" style="display: none">
+                Xoay:
+                <div id="rotat"></div>
+                Kích thước:
+                <div id="resize"></div>
+                Tọa độ X:
+                <div id="posX"></div>
+                Tọa độ Y:
+                <div id="posY"></div>
+                <input type="hidden" value="0" id="img_resize">
+                <input type="file" style="display: none " id="imageLoader" name="imageLoader" accept="image/*" />
+                <br />
+                @*<div class="input-group">
+                        <input type="text" class="form-control" onchange="makeImg()" id="ten" placeholder="Tên của bạn">
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Nhập lời chúc của bạn tại đây" onchange="makeImg()" id="loichuc" rows="3"></textarea>
+                    </div>*@
+                <br />
+                <button class="btn btn-outline-primary btn-lg btn-block" onclick="$('#imageLoader').click();"><i class="fa fa-upload" aria-hidden="true"></i> Upload avatar</button>
+                @*<button class="btn btn-primary btn-lg btn-block" id="btnShare" onclick="shareFB()">
+                        <i class="fa fa-facebook-official" aria-hidden="true"></i> Share facebook
+                    </button>*@
+                <button tyle="button" class="btn btn-primary btn-lg btn-block" id="btnDownload" onclick="setDownload()"><i class="fa fa-download" aria-hidden="true"></i> Tải hình về</button>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="~/Assets/js/user_page/avatar.js"></script>
+}

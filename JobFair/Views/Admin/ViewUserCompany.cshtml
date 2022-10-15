@@ -1,0 +1,10 @@
+﻿@model JobFair.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    Html.RenderPartial("Components/_UserCompanyInfo", Model);
+}

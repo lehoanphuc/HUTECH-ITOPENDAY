@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @JobFair.Shared.MasterData.WebSettingData.Title</title>
+    <meta name="description" content="@JobFair.Shared.MasterData.WebSettingData.Description" />
+    <meta name="keywords" content="@JobFair.Shared.MasterData.WebSettingData.Keyword">
+
+    <!-- Facebook -->
+    <meta property="og:title" content="@JobFair.Shared.MasterData.WebSettingData.Title">
+    <meta content='website' property='og:type' />
+    <meta content="@JobFair.Shared.MasterData.WebSettingData.Description" property='og:description' />
+    <meta content="@JobFair.Shared.MasterData.WebSettingData.Title" property='og:site_name' />
+    <meta property="og:image" content="@JobFair.Shared.MasterData.WebSettingData.ThumbImg" />
+    <meta name="author" content="HUTECH YOUTHDEV">
+    <link href='~/Assets/img/logo.png' rel='icon' type='image/x-icon' />
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/user_css")
+</head>
+<body>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">IT OPEN DAY</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/#about">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#event">Sự kiện</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/event">Hội thảo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scholarship">Học bổng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#video">Video</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#company">Nhà tài trợ</a>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-primary" href="/job"><i class="fa-solid fa-bell fa-shake"></i> Ứng tuyển</a>
+
+                    @if (!JobFair.Helpers.SessionHelper.IsLogin())
+                    {
+                        <button type="button" class="btn btn-primary ml-3" data-toggle="modal" data-target="#modalLogin">Đăng ký</button>
+                    }
+                    else
+                    {
+                        var name = JobFair.Helpers.SessionHelper.GetUser().Fullname;
+
+                        <div class="dropdown">
+                            <button class="btn  ml-3 btn-primary dropdown-toggle" type="button" id="profileMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Chào @name
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="profileMenuButton">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalUserInfo">Thông tin của tôi</a>
+                                <a class="dropdown-item" href="/student/logout">Thoát</a>
+                            </div>
+                        </div>
+                    }
+
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <!-- Footer-->
+    <footer class="footer bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 h-100 text-center text-lg-start my-auto">
+                    <ul class="list-inline mb-2">
+                        <li class="list-inline-item"><a href="@JobFair.Shared.MasterData.WebSettingData.FacebookUrl">Facebook</a></li>
+                        <li class="list-inline-item">⋅</li>
+                        <li class="list-inline-item"><a href="#!">Email</a></li>
+                    </ul>
+                    <p class="text-muted small mb-4 mb-lg-0">&copy; Khoa Công Nghệ Thông Tin - Trường Đại Học Công Nghệ TP. HCM</p>
+                </div>
+                <div class="col-lg-6 h-100 text-center text-lg-end my-auto">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item me-4">
+                            <a href="#!"><i class="bi-facebook fs-3"></i></a>
+                        </li>
+                        <li class="list-inline-item me-4">
+                            <a href="#!"><i class="bi-twitter fs-3"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!"><i class="bi-instagram fs-3"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @if (!JobFair.Helpers.SessionHelper.IsLogin())
+    {
+        <script>
+            const _IS_LOGIN = false;
+        </script>
+        Html.RenderPartial("Components/_StudentLogin");
+
+        // Remove authencation session in http context
+        FormsAuthentication.SignOut();
+    }
+    else
+    {
+        <script>
+            const _IS_LOGIN = true;
+        </script>
+
+        Html.RenderPartial("Components/_StudentInfo");
+    }
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/user_js")
+    <script src="https://www.google.com/recaptcha/api.js?render=@JobFair.Shared.MasterData.WebSettingData.CaptchaSiteID"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

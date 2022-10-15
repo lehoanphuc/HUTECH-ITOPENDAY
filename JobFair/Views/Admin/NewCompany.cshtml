@@ -1,0 +1,9 @@
+﻿
+@{
+    ViewBag.Title = "Tạo mới công ty";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{ 
+    Html.RenderPartial("Components/_CompanyInfo", new JobFair.ViewModels.CompanyViewModel());
+}
